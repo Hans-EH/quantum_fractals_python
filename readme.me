@@ -1,0 +1,23 @@
+to setup the environment run the following:
+
+conda create --name quantumfractals
+conda activate quantumfractals
+conda install pip
+pip install -r requirements.txt
+
+to run the app:
+1. add or change the statevectors as fit for the purpose. Note, the amount of rows should always be the same
+2. run: conda activate quantumfractals && python backend.py & streamlit run frontend.py
+3. change the statevectors once
+4. Application has now started and generated both a set of old and new fractals (used to for transition animation)
+
+
+if app is to laggy, try running the commands seperately in 2 terminals:
+terminal 1: conda activate quantumfractals && python backend.py
+terminal 2: conda activate quantumfractals && streamlit run frontend.py
+
+
+troubleshoot:
+1. make sure the conda env is activated (not base)
+2. make sure an earlier instance is not running
+3. if all fails, restart and start over
