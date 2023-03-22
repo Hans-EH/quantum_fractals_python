@@ -32,7 +32,7 @@ def create_all_fractals():
     fractals = []
     #json_fractals = []
     max_iterations = 100
-    size = 250
+    size = 200
 
     id_cnt = 1
     for i in range(len(statevectors)):
@@ -65,7 +65,9 @@ while(True):
 
     # Compare the current modification time with the previous one
     if current_modified_time != last_modified_time:
+        print("="*50)
         print('The statevectors have been modified!')
+        start_time = time.time()
         
         #backup last iteration of fractals
         with open("fractals.txt", "r") as fp:
@@ -90,7 +92,7 @@ while(True):
         
         # Update the last modified time to the current one
         last_modified_time = current_modified_time
-        print("The fractals has been updated")
+        print("--- The fractals has been updated, took: %s seconds ---" % (time.time() - start_time))
     time.sleep(1)
 
 
