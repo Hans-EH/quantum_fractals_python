@@ -15,7 +15,6 @@ from src.Fractal import julia_set_jit
 
 
 def load_statevectors():
-    print("="*50)
     df = pd.read_csv('statevectors.csv')
     df.dropna(inplace=True)
     svid = df['svid'].tolist()
