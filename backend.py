@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from typing import List
 import pandas as pd
+from numba import jit, prange, vectorize
 import time
 import io
 import json
@@ -13,21 +14,19 @@ from src.Fractal import julia_set_jit
 #code by Hans Heje
 
 
-
 def load_statevectors():
     df = pd.read_csv('statevectors.csv')
     df.dropna(inplace=True)
-    svid = df['svid'].tolist()
+    svids = df['svid'].tolist()
     statevectors = df['statevector'].tolist()
 
     #convert from string to list of complex numbers
     vfunc = np.vectorize(eval)
     for i in range(len(statevectors)):
         statevectors[i] = vfunc(statevectors[i]).tolist()
-    return statevectors,svid
+    return statevectors,svids
 
-def create_all_fractals():
-    statevectors,svid = load_statevectors()
+def create_all_fractals(statevectors,svids):
     fractals = []
     #json_fractals = []
     max_iterations = 100
@@ -36,7 +35,7 @@ def create_all_fractals():
     id_cnt = 1
     for i in range(len(statevectors)):
         #if no statevector at that id is found, then create a blank fractal (not a fractal)
-        while(id_cnt != svid[i]):
+        while(id_cnt != svids[i]):
             fractals.append(np.full((size, size), max_iterations-1).tolist())
             id_cnt = id_cnt+1
         id_cnt = id_cnt+1
@@ -76,7 +75,8 @@ while(True):
         with open("old_fractals.txt", "r") as fp:
             old_fractals = json.load(fp)
 
-        fractals = create_all_fractals()
+        statevectors,svids = load_statevectors()
+        fractals = create_all_fractals(statevectors,svids)
 
         with open("fractals.txt", "w") as fp:
             json.dump(fractals, fp)
