@@ -82,7 +82,7 @@ while(True):
             json.dump(fractals, fp)
 
         #check if fractal has changed, if it hasnt changed, then keep the old
-        for i in range(len(fractals)):
+        for i in range(min(len(fractals),len(backup_fractals))):
             if fractals[i] != backup_fractals[i]:
                 old_fractals[i] = backup_fractals[i]
         
